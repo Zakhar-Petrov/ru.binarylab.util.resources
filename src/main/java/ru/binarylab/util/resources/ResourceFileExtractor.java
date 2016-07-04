@@ -10,9 +10,9 @@ import java.nio.file.StandardCopyOption;
 
 public class ResourceFileExtractor {
 
-	private final ResourceEntry resource;
+	private final ResourceFile resource;
 
-	public ResourceFileExtractor(ResourceEntry resource) {
+	public ResourceFileExtractor(ResourceFile resource) {
 		this.resource = resource;
 	}
 

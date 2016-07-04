@@ -16,18 +16,27 @@ public class ResourcesClassPath {
 		this.classLoader = classLoader;
 	}
 
-	public List<ResourceEntry> getRsources(String path) throws IOException {
+	public List<ResourceEntry> getRsources(String path) throws ResourceException {
 		URL parent = classLoader.getResource(path);
-		File file = new File(parent.getFile());
-		file.isDirectory();
-		file.isFile();
+		if (ResourceUtils.isJarURL(parent)) {
+
+		} else {
+			File pathFile = new File(parent.getFile());
+			if (pathFile.isDirectory()) {
+
+			}
+		}
+
 		List<ResourceEntry> resources = new LinkedList<ResourceEntry>();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(path)));
 		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
-				resources.add(new ResourceEntry(new URL(parent.toString() + "/" + line)));
+				ResourceEntry resource = ResourceEntryFactory.fromURL(new URL(parent.toString() + "/" + line));
+				resources.add(resource);
 			}
+		} catch (IOException e) {
+			throw new ResourceException("Can't read resources", e);
 		} finally {
 			try {
 				reader.close();
@@ -36,6 +45,11 @@ public class ResourcesClassPath {
 			}
 		}
 		return resources;
+	}
+
+	public ResourceEntry getResource(String path) throws ResourceException {
+		URL url = classLoader.getResource(path);
+		return ResourceEntryFactory.fromURL(url);
 	}
 
 }
