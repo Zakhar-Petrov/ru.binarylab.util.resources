@@ -1,7 +1,12 @@
-package ru.binarylab.util.resources;
+package ru.binarylab.util.resources.extractor;
 
 import java.nio.file.Path;
 import java.util.Collection;
+
+import ru.binarylab.util.resources.ResourceDirectory;
+import ru.binarylab.util.resources.ResourceEntry;
+import ru.binarylab.util.resources.ResourceException;
+import ru.binarylab.util.resources.ResourceFile;
 
 public class ResourceExtractor {
 

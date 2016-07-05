@@ -1,4 +1,4 @@
-package ru.binarylab.util.resources;
+package ru.binarylab.util.resources.extractor;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +10,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import ru.binarylab.util.resources.ResourceEntryFactory;
+import ru.binarylab.util.resources.ResourceException;
+import ru.binarylab.util.resources.ResourceFile;
 
 public class ResourceFileExtractorTest {
 
@@ -24,7 +28,7 @@ public class ResourceFileExtractorTest {
 	private ResourceFileExtractor extractor;
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ResourceException {
 		initSourceDirectory();
 		createSourceFile();
 		createDestinationDirecotry();
@@ -48,8 +52,8 @@ public class ResourceFileExtractorTest {
 		destinationTestFile = new File(destinationDirectory, sourceTestFile.getName());
 	}
 
-	private void newTestingInstance() throws IOException {
-		ResourceFile resource = new ResourceFile(sourceTestFile.toURI().toURL());
+	private void newTestingInstance() throws IOException, ResourceException {
+		ResourceFile resource = (ResourceFile) ResourceEntryFactory.fromURL(sourceTestFile.toURI().toURL());
 		extractor = new ResourceFileExtractor(resource);
 	}
 
@@ -60,8 +64,8 @@ public class ResourceFileExtractorTest {
 		assertTrue(destinationTestFile.exists());
 	}
 
-	@Test(expected = ExtractException.class)
-	public void testExtractToDirectoryWithExistingFile() throws ExtractException {
+	@Test
+	public void testExtractToDirectoryWithTheSameFile() throws ExtractException {
 		Path sourcePath = sourceDirectory.toPath();
 		extractor.extractToDirectory(sourcePath);
 	}

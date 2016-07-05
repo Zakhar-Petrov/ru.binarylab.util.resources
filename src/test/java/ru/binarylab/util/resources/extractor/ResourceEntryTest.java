@@ -1,4 +1,4 @@
-package ru.binarylab.util.resources;
+package ru.binarylab.util.resources.extractor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,13 +6,16 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import ru.binarylab.util.resources.ResourceEntryFactory;
+import ru.binarylab.util.resources.ResourceException;
+import ru.binarylab.util.resources.ResourceFile;
 
 public class ResourceEntryTest {
 
@@ -28,11 +31,11 @@ public class ResourceEntryTest {
 	private ResourceFile notExistingResource;
 
 	@Before
-	public void createResourceFile() throws MalformedURLException, IOException {
+	public void createResourceFile() throws ResourceException, IOException {
 		existingFileUrl = folder.newFile(EXISTING_FILE_NAME).toURI().toURL();
-		existingResource = new ResourceFile(existingFileUrl);
+		existingResource = (ResourceFile) ResourceEntryFactory.fromURL(existingFileUrl);
 		notExistingFileUrl = new File(folder.getRoot(), NOT_EXISTING_FILE_NAME).toURI().toURL();
-		notExistingResource = new ResourceFile(notExistingFileUrl);
+		notExistingResource = (ResourceFile) ResourceEntryFactory.fromURL(notExistingFileUrl);
 	}
 
 	@Test

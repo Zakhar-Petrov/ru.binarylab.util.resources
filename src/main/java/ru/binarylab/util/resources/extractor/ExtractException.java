@@ -1,4 +1,4 @@
-package ru.binarylab.util.resources;
+package ru.binarylab.util.resources.extractor;
 
 @SuppressWarnings("serial")
 public class ExtractException extends Exception {
